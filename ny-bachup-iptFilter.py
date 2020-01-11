@@ -33,10 +33,26 @@ else:
     Chain = sys.argv[1]
 
 
+#print(len(sys.argv))
 def drop():
+   # chain = iptc.Chain(iptc.Table(iptc.Table.FILTER), Chain)
+   # rule = iptc.Rule()
+   # rule.protocol = protocol
+   # rule.in_interface = interface
+   # rule.add_match(match)
+   # match = iptc.Match(rule, "iprange")
+   # match.src_range = "192.168.1.100-192.168.1.200"
+   # match.dst_range = "172.22.33.106"
+   # rule.add_match(match)
+   # target = iptc.Target(rule, targets)
+   # rule.target = target
+   # chain.insert_rule(rule)
    rule = iptc.Rule()
+#   if protocol == "tcp" or protocol == "udp" :
    rule.protocol = protocol
    match = iptc.Match(rule, protocol)
+#   elif protocl == "all" or protocol == "ALL":
+#      os.system("date")
    match.sport = source_port
    match.dport = destination_port
    rule.add_match(match)
@@ -66,6 +82,7 @@ def allowEstablished():
 
 def static_iptables():
      all_condition = [protocol,  source,  destination,  source_port,  destination_port]
+#    for X in all_condition:
      if protocol == "all":
          X_protocol = ""
          IPTABLES_final = "iptables -t filter -I " + Chain + "  " + X_protocol
@@ -98,15 +115,27 @@ def static_iptables():
     
      IPTABLES_final += " -j " + targets
      print (IPTABLES_final)
+#     os.system (IPTABLES_final)
 
 
+           
+#            Y = "iptables -t filter -I {} -p {} -s {} -d {} --sport {} --dport {} -j {}"
+#            IPTABLES_final = "iptables -t filter" + " " + "-I" 
 
+#        print (X)
 if protocol == "all" or  source == "all" or  destination == "all" or  source_port == "all" or  destination_port == "all": 
    IPTABLES_sample = "iptables -t filter -I {} -p {} -s {} -d {} --sport {} --dport {} -j {}"
    IPTABLES_1 = IPTABLES_sample.format(Chain, protocol, source, destination, source_port, destination_port, targets)
+#   print (IPTABLES_1)
    static_iptables()
 
 else: 
     drop()
 
+#drop()
 
+#allowLoopback()
+#allowEstablished()
+
+#print (sys.argv[1])
+#print (sys.argv[2])

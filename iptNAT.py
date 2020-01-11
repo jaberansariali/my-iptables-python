@@ -4,7 +4,14 @@
 #########                                                                                                                   ##
 ##############################################################################################################################
 ##########Do not change any thing ###########################
+####################### discription #################
+import sys
 import iptc
+################################## 1) source ip 2) destionation ip 3) interface 4) snat_ip
+source_for_nat = sys.argv[1]
+destination_for_nat = sys.argv[2]
+Interface = sys.argv[3]
+Snat_ip = sys.argv[4]
 class pop_table:
     def __init__(self, table_name):
         self.table = iptc.Table(table_name)
@@ -84,10 +91,10 @@ phyrule['tblchn']['table'] = 'nat'
 phyrule['tblchn']['chain'] = 'POSTROUTING'
 phyrule['tblchn']['action'] = 'insert'
 phyrule['rule'] = dict()
-phyrule['rule']['o_iface'] = 'ens3'
-phyrule['rule']['snat'] = '110.1.2.250'
-phyrule['rule']['source'] = '110.9.60.9'
-phyrule['rule']['destination'] = '110.141.21.13'
+phyrule['rule']['o_iface'] = Interface
+phyrule['rule']['snat'] = Snat_ip
+phyrule['rule']['source'] = source_for_nat
+phyrule['rule']['destination'] = destination_for_nat
 
 
 a = phyawall()
